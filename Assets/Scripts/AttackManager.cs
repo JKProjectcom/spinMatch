@@ -4,6 +4,7 @@ using UnityEngine.EventSystems;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using TMPro;
 
 public class AttackManager : MonoBehaviour
 {
@@ -42,6 +43,11 @@ public class AttackManager : MonoBehaviour
 
     // コンボカウント
     public int moldComboNum;
+
+    // 表示用コンボ（ダメージ計算には用いない）
+    public GameObject comboTextPanel;
+    public TextMeshProUGUI comboText;
+    public int comboTextNum;
 
     // コンボ中にまだ判定していないモールド
     public List<string> waitingMoldList;
@@ -173,6 +179,10 @@ public class AttackManager : MonoBehaviour
                 playerStatusManager.DamagePoison();
 
                 CheckHp();
+
+                // コンボ数表示をリセット
+                comboTextPanel.SetActive(false);
+                comboTextNum = 0;
 
                 puzzleMain.comboState = "waitEnemyAttackEffect";
             }
@@ -833,6 +843,8 @@ public class AttackManager : MonoBehaviour
 
                 // パーツをコンボ用パーツに変える
                 comboParts.AddRange(ChangeComboPart(color, i, blockArray, directionArray));
+
+                comboTextNum++;
             }
         }
     }
@@ -2322,7 +2334,45 @@ public class AttackManager : MonoBehaviour
             seManager.SoundComboSe();
             puzzleMain.comboState = "waitComboPartsDelete";
             isCombo = false;
+
+            // コンボ数の表示を更新
+            UpdateComboCountText();
+        }
+    }
+
+    // コンボ数表示を更新する
+    public void UpdateComboCountText()
+    {
+        if (!comboTextPanel.activeSelf)
+        {
+            // コンボ数を表示する
+            comboTextPanel.SetActive(true);
         }
 
+        comboText.text = comboTextNum + " combo";
+        switch (comboTextNum)
+        {
+            case <= 3:
+                comboText.color = new Color(255, 255, 255);
+                break;
+            case <= 6:
+                comboText.color = new Color(0, 255, 0);
+                break;
+            case <= 9:
+                comboText.color = new Color(255, 255, 0);
+                break;
+            case <= 12:
+                comboText.color = new Color(255, 165, 0);
+                break;
+            case <= 15:
+                comboText.color = new Color(255, 69, 0);
+                break;
+            case <= 18:
+                comboText.color = new Color(255, 20, 147);
+                break;
+            default:
+                comboText.color = new Color(255, 0, 255);
+                break;
+        }
     }
 }

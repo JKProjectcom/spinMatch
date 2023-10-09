@@ -56,9 +56,6 @@ public class PuzzleMain : MonoBehaviour
     // 1回の攻撃で消すべきパーツの位置情報
     public List<Dictionary<int, string>> comboPartsPosition;
 
-    // コンボ数
-    public int comboCount;
-
     // 攻撃パネルのバー
     public GameObject attackBar_1;
     public GameObject attackBar_2;
@@ -69,7 +66,6 @@ public class PuzzleMain : MonoBehaviour
         // いろいろ初期化
         partsList = new List<Dictionary<string, GameObject>>();
         comboPartsPosition = new List<Dictionary<int, string>>();
-        comboCount = 0;
         puzzleState = "puzzle";
 
         // 敵の初期化
