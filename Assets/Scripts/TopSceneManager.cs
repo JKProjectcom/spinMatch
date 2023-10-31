@@ -23,6 +23,9 @@ public class TopSceneManager : MonoBehaviour
             // トップ画面のチュートリアル
             tutorialManager.StartTopTutorial();
         }
+
+        // 言語変更の初期値は英語にしておく
+        selectedLanguage = "en";
     }
 
     // Update is called once per frame
